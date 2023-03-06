@@ -1,0 +1,74 @@
+<section>
+
+    {{#if productList}}
+
+    <section class="h-100">
+        <div class="container h-100 py-5 bg-white">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-10">
+
+                    <div class="align-items-center mb-4">
+                        <h3 class="fw-normal mb-0 text-black">Orders</h3>
+                    </div>
+
+                    {{#each productList}}
+                    <a href="orders/view-order/{{this.item}}" class="text-decoration-none">
+                        <div class="card rounded-3 mb-4 shadow-sm" style="cursor: pointer;">
+                            <div class="card-body p-4">
+                                <div class="row d-flex justify-content-start align-items-center">
+                                    <div class="col-md-2 col-lg-2 col-xl-2">
+                                        <img src="/images/product-images/{{this.item}}.jpg"
+                                            class="img-fluid rounded-3" alt="...">
+                                    </div>
+                                    <div class="col-md-6 col-lg-9 col-xl-9">
+                                        <p class="lead fw-normal mb-2">{{this.title}}</p>
+                                        <span class="text-muted">Order ID: {{this.orderId}}</span>
+                                        <h6 class="{{statusChecker this.status}}">Order {{this.status}}</h6>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    {{/each}}
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{else}}
+    <section class="h-100 mt-5">
+        <div class="text-center">
+            <h2>No orders placed!</h2>
+            <p>Order items now.</p>
+            <a href="/" class="btn btn-sm btn-primary">Shop now</a>
+        </div>
+    </section>
+    {{/if}}
+</section>
+
+<script>
+    function changeQuantity(cartId, productId, count) {
+        const itemCount = parseInt($(`#${productId}`).html())
+        $.ajax({
+            url: '/change-quantity',
+            data: {
+                cart: cartId,
+                product: productId,
+                count: count,
+                quantity: itemCount
+            },
+            method: 'post',
+            success: (response) => {
+                if (response) {
+                    $(`#${productId}`).html(itemCount + parseInt(count))
+                    $('#total-price-div').load(location.href + " #total-price")
+                } else {
+                    alert('Prodect Removed')
+                    location.reload();
+                }
+            }
+        })
+    }
+</script>

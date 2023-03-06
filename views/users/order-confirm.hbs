@@ -1,0 +1,28 @@
+<section>
+    <div class="container mt-5 mb-5">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="p-5 text-center">
+                        <h1 class="text-center" style="font-size: 3.5rem;">✅</h1>
+                        <h5 class="mb-3">Your order Confirmed!</h5>
+                        <p>Total amount payable {{priceInIndianFormat totalAmount}}</p>
+                        <a href="/orders" class="btn btn-primary">Go to orders</a>
+                    </div>
+                </div>
+                <div class="card mt-2">
+                    <div class="card-header">
+                        Deliver to:
+                    </div>
+                    <div class="p-4">
+                        <div>
+                            <h5 class="card-title">{{address.fname}} {{address.lname}}</h5>
+                            <p class="card-text">{{address.address}},{{address.city}},{{address.state}} - {{address.pincode}}</p>
+                            <p class="card-text">{{address.phone}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

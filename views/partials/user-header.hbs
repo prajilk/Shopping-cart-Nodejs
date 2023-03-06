@@ -1,0 +1,126 @@
+<style>
+  @media only screen and (max-width: 360px){
+        .searchImg {
+          width: 60px;
+        }
+    }
+    @media only screen and (max-width: 460px){
+        
+    }
+</style>
+
+<section>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">Shopping Cart</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/orders">Orders</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link position-relative" href="/cart">Cart
+
+              <span id="cart-items-count" {{#if cartItemCount}}
+                class="position-absolute start-100 translate-middle badge rounded-pill bg-danger" style="top: 10px"
+                {{/if}}>{{#if cartItemCount}}{{cartItemCount}}{{/if}}</span>
+
+            </a>
+          </li>
+        </ul>
+        <div class="me-3">
+          <button data-mdb-toggle="modal" data-mdb-target="#searchPopUp" class="btn btn-outline-light"><i
+              class="fa fa-search"></i></button>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="searchPopUp" tabindex="-1" aria-labelledby="searchPopUpModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header border-bottom-0">
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body text-start text-black p-4 pt-0">
+                <input id="search" onkeyup="searchData(this)" type="text" class="form-control" placeholder="Search">
+              </div>
+              <div class="modal-footer d-flex justify-content-evenly border-top-0 py-4">
+                <section id="searchResults" class="w-100 ps-2 pe-2 pt-0">
+
+                </section>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal -->
+        <div class="dropdown">
+          <button class="btn btn-light dropdown-toggle text-primary fw-bold" type="button" id="dropdownMenuButton2"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            {{#if user}}
+            {{user.name}}
+            {{else}}
+            ACCOUNT
+            {{/if}}</button>
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+            {{#if user}}
+            <li><a class="dropdown-item" href="/logout">Logout</a></li>
+            <li><a class="dropdown-item" href="/address">Save address</a></li>
+            {{else}}
+            <li><a class="dropdown-item" href="/login">Login</a></li>
+            {{/if}}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+</section>
+<script>
+  function searchData(e) {
+    const searchResults = document.getElementById('searchResults');
+    let match = e.value.match(/^[a-zA-Z 0-9]*/);
+    let match2 = e.value.match(/\s*/);
+    if (match2[0] === e.value) {
+      searchResults.innerHTML = '';
+      return;
+    }
+    if (match[0] === e.value) {
+      fetch('/search', {
+        method: 'POST',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({ payload: e.value })
+      }).then(res => res.json()).then(data => {
+        let payload = data.payload;
+        $('#searchResults').html('');
+        searchResults.innerHTML = '';
+        if (payload.length < 1) {
+          searchResults.innerHTML = '<p>Sorry. Nothing found.</p>';
+          return;
+        }
+        payload.forEach((item, index) => {
+          if (index > 0) searchResults.innerHTML += "<hr>";
+          searchResults.innerHTML +=
+            `<a href="/product/${item._id}" class="text-decoration-none text-dark">
+              <div class="clickable-div d-flex" data-scroll-to="#${item._id}" style="cursor: pointer">
+                <img 
+                  src='/images/product-images/${item._id}.jpg' 
+                  class="searchImg me-2 col-sm-1 col-md-2" 
+                  alt='...'/>
+                <div>
+                  <h6 class="m-0">${item.title}</h6>
+                  <p class="m-0">${item.category}</p>
+                </div>
+              </div>
+            </a>`
+        })
+      })
+      return;
+    }
+    searchResults.innerHTML = '';
+  }
+</script>

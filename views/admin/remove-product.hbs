@@ -1,0 +1,16 @@
+<section>
+    <div class="container">
+    <div class="card mt-5 shadow">
+        <h5 class="card-header">Remove Product</h5>
+        <div class="card-body">
+            <h5 class="card-title">Remove product: {{data._id}}</h5><br>
+            <h6 class="card-title">Title: {{data.title}}</h6>
+            <h6 class="card-title">Category: {{data.category}}</h6>
+            <h6 class="card-title">Price: {{data.price}}</h6>
+            <p class="card-text">Are you sure you want to remove?</p>
+            <a href="/admin/remove/{{data._id}}" class="btn btn-danger">REMOVE</a>
+            <a href="/admin" class="btn btn-primary">Cancel</a>
+        </div>
+    </div>
+    </div>
+</section>

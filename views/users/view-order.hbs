@@ -1,0 +1,109 @@
+<section class="gradient-custom-2 mb-5">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-10 col-lg-8 col-xl-6">
+                <div class="card card-stepper" style="border-radius: 16px;">
+                    <div class="card-header p-4" style="border-radius: 16px 16px 0 0;">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="text-muted mb-2"> Order ID: <span
+                                        class="fw-bold text-body">{{thisProductDetails.orders._id}}</span>
+                                </p>
+                                <p class="text-muted mb-0"> Placed On: <span
+                                        class="fw-bold text-body">{{thisProductDetails.orders.date}}</span> </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="d-flex flex-row pb-2">
+                            <div class="flex-fill">
+                                <h5 class="bold">{{thisProductDetails.productDetails.title}}</h5>
+                                <p class="text-muted"> Qt: {{thisProductDetails.orders.products.quantity}} item</p>
+                                <p class="text-muted"> Category: {{thisProductDetails.productDetails.category}}</p>
+                                <p class="text-muted"> Description: {{thisProductDetails.productDetails.description}}</p>
+                                <p class="text-muted">Status: <span class="fw-bold text-dark">Order {{thisProductDetails.orders.status}}</span></p>
+                                <h4 class="mb-3">{{priceInIndianFormat thisProductDetails.productDetails.price}}</h4>
+                            </div>
+                            <div style="height: fit-content;">
+                                <img class="align-self-center"
+                                    src="/images/product-images/{{thisProductDetails.productDetails._id}}.jpg"
+                                    width="150">
+                            </div>
+                        </div>
+                    <div class="card-footer">
+                        <div>
+                            <div class="card-header">
+                                <h5 class="bold">Shipping details:</h5>
+                            </div>
+                            <div class="list-group-item">
+                                <h5>{{thisProductDetails.orders.deliveryAddress.fname}}
+                                    {{thisProductDetails.orders.deliveryAddress.lname}}</h5>
+                                <p class="mb-1">{{thisProductDetails.orders.deliveryAddress.address}}</p>
+                                <p class="mb-1">{{thisProductDetails.orders.deliveryAddress.city}}</p>
+                                <p class="mb-1">{{thisProductDetails.orders.deliveryAddress.state}} -
+                                    {{thisProductDetails.orders.deliveryAddress.pincode}}</p>
+                                <p class="mb-1">Phone number: {{thisProductDetails.orders.deliveryAddress.phone}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {{#if otherItemsInOrder}}
+                    <div class="card-footer">
+                        <div>
+                            <div class="card-header">
+                                <h6 class="bold">Other items in this order:</h6>
+                            </div>
+                            {{#each otherItemsInOrder}}
+                            <a href="/orders/view-order/{{this.products._id}}" class="text-decoration-none">
+                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h5>{{this.products.title}}</h5>
+                                        <p>Placed on: {{../thisProductDetails.orders.date}}</p>
+                                    </div>
+                                    <img src="/images/product-images/{{this.products._id}}.jpg" alt=".." width="70px">
+                                </div>
+                            </a>
+                            {{/each}}
+                        </div>
+                    </div>
+                    {{/if}}
+
+                    <div class="card-footer">
+                        <div>
+                            <div class="card-header">
+                                <h6 class="bold">Price details:</h6>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2">Selling price:</p>
+                                    <p class="mb-2">{{priceInIndianFormat thisProductDetails.productDetails.price}}</p>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2">Total quantity:</p>
+                                    <p class="mb-2">{{thisProductDetails.orders.products.quantity}}</p>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2">Shipping price:</p>
+                                    <p class="mb-2">{{priceInIndianFormat 0}}</p>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2">Total amount:</p>
+                                    <p class="mb-2">{{priceInIndianFormat (calcTotalprice
+                                        thisProductDetails.productDetails.price
+                                        thisProductDetails.orders.products.quantity)}}</p>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <ul class="m-0">
+                                    <li class="m-0">{{thisProductDetails.orders.paymentMethod}}: {{priceInIndianFormat
+                                        (calcTotalprice thisProductDetails.productDetails.price
+                                        thisProductDetails.orders.products.quantity)}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

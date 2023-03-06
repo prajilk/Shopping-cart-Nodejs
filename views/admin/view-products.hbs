@@ -1,0 +1,37 @@
+<section>
+    <div class="container mb-5">
+        <div class="row mt-4 mb-2">
+            <div class="ms-auto d-flex flex-row-reverse">
+                <a href="/admin/add-product" class="btn btn-primary me-1" style="display: inline-block;">Add
+                    Products</a>
+            </div>
+        </div>
+        <table class="display table align-middle pt-2" id="productTable">
+            <thead>
+                <tr>
+                    <th scope="col" class="border-top">S.no</th>
+                    <th scope="col" class="border-top">Title</th>
+                    <th scope="col" class="border-top">Category</th>
+                    <th scope="col" class="border-top">Price</th>
+                    <th scope="col" class="border-top">Image</th>
+                    <th scope="col" class="border-top">Update/Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each products}}
+                <tr>
+                    <th scope="row">{{add @index}}</th>
+                    <td>{{this.title}}</td>
+                    <td>{{this.category}}</td>
+                    <td>{{this.price}}</td>
+                    <td><img src="/images/product-images/{{this._id}}.jpg" style="width:50px; height: 50px" alt=""></td>
+                    <td>
+                        <a href="/admin/update-product/{{this._id}}" class="btn btn-success">UPDATE</a>
+                        <a href="/admin/remove-product/{{this._id}}" class="btn btn-danger">REMOVE</a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</section>

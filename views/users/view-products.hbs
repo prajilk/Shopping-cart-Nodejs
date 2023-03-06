@@ -1,0 +1,83 @@
+<style>
+    @media only screen and (max-width: 360px){
+        
+    }
+    @media only screen and (max-width: 460px){
+        
+    }
+</style>
+
+<section>
+    <div class="container pt-5">
+        <div class="row">
+            {{#each products}}
+            <div class="col-md-3" id="{{this._id}}">
+                <a href="/product/{{this._id}}" class="text-decoration-none text-dark">
+                    <div class="card me-1 mb-3 shadow rounded" style="width: 16rem;">
+                        <img src="/images/product-images/{{this._id}}.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title text-truncate">{{this.title}}</h5>
+                            <p class="card-text text-truncate">{{this.description}}</p>
+                            <h6 class="card-text">{{priceInIndianFormat this.price}}</h6>
+
+                            <button type="button" class="btn btn-primary" {{#if ../user}}
+                                onclick="addToCart(event,'{{this._id}}')" data-mdb-toggle="modal"
+                                data-mdb-target="#addToCartPopUp" {{else}} onclick="addToCart(null)" {{/if}}>Add to
+                                cart</button>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {{/each}}
+            <!-- Modal -->
+            <div class="modal fade" id="addToCartPopUp" tabindex="-1" aria-labelledby="addToCartPopUpModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header border-bottom-0">
+                            <button type="button" class="btn-close" data-mdb-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-start text-black p-4">
+                            <h4 class="mb-3 text-success text-center">Item added to the cart successfully!</h4>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-center border-top-0 py-4">
+                            <a href="/cart" class="btn btn-primary btn-lg mb-1">
+                                GO TO CART
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal -->
+        </div>
+    </div>
+</section>
+<script>
+    function addToCart(event, id) {
+        event.preventDefault();
+        if (id === null) {
+            location.href = '/login'
+        } else {
+            $.ajax({
+                url: '/add-to-cart/' + id,
+                method: 'get',
+                success: (response) => {
+                    if (response.status) {
+                        //Update the count of Cart items
+                        let count = $('#cart-items-count').html()
+                        if (count !== '')
+                            count = parseInt(count) + 1;
+                        else {
+                            count = 1;
+                            $('#cart-items-count').attr('class', 'position-absolute start-100 translate-middle badge rounded-pill bg-danger')
+                            $('#cart-items-count').attr('style', 'top: 10px')
+                        }
+                        $('#cart-items-count').html(count)
+                    }
+                }
+            })
+        }
+    }
+
+</script>

@@ -1,0 +1,50 @@
+<section>
+    <div class="container mb-5">
+        <div class="row mt-4 mb-3">
+            <div class="ms-auto">
+                <h3>All users</h3>
+            </div>
+        </div>
+        <hr>
+        <table class="display table align-start pt-2" id="productTable">
+            <thead>
+                <tr>
+                    <th scope="col" class="border-top">S.no</th>    
+                    <th scope="col" class="border-top">User ID</th>
+                    <th scope="col" class="border-top">Name</th>
+                    <th scope="col" class="border-top">Email</th>
+                    <th scope="col" class="border-top">Current orders</th>
+                    <th scope="col" class="border-top">All orders</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each accountList}}
+                <tr>
+                    <th scope="row">{{add @index}}</th>
+                    <td>{{this._id}}</td>
+                    <td>{{this.name}}</td>
+                    <td>{{this.email}}</td>
+                    <td>
+                        {{#each this.allOrders}}
+                            {{#each this.orders}}
+                                {{#if (currentOrders this.status)}}
+                                <li><a href="/admin/all-orders/view-order/{{this._id}}">{{this._id}}</a></li>
+                                {{/if}}
+                            {{/each}}
+                        {{/each}}
+                    </td>
+                    <td>
+                        <ul>
+                            {{#each this.allOrders}}
+                                {{#each this.orders}}
+                                <li><a href="/admin/all-orders/view-order/{{this._id}}">{{this._id}}</a></li>
+                                {{/each}}
+                            {{/each}}
+                        </ul>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</section>

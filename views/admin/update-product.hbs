@@ -1,0 +1,38 @@
+<section>
+    <div class="container">
+        <form action="/admin/update-success/{{data._id}}" method="post" class="mt-4 bg-white p-3 shadow" enctype="multipart/form-data">
+            <h3 class="text-center">Update Product</h3>
+            <div class="form-group mt-3">
+                <label style="font-weight: bold;">Product Id</label>
+                <input type="text" name="id" class="form-control shadow-none" value="{{data._id}}" readonly style="border: 0; outline: 0;">
+            </div>
+            <div class="form-group mt-3">
+                <label style="font-weight: bold;">Product Title</label>
+                <input type="text" name="title" class="form-control" value="{{data.title}}">
+            </div>
+            <div class="form-group mt-3">
+                <label style="font-weight: bold;">Product Category</label>
+                <input type="text" name="category" class="form-control" value="{{data.category}}">
+            </div>
+            <div class="form-group mt-3">
+                <label style="font-weight: bold;">Product Price</label>
+                <input type="text" name="price" class="form-control" value="{{data.price}}">
+            </div>
+            <div class="form-group mt-3">
+                <label style="font-weight: bold;">Product Description</label>
+                <input type="text" name="description" class="form-control" value="{{data.description}}">
+            </div>
+            <div class="form-group mt-3">
+                <img src="/images/product-images/{{data._id}}.jpg" id="productImg" alt="..." style="width: 100px" class="mb-2"><br>
+                <input type="file" name="image" accept="image/png, image/jpeg" class="form-control-file" onchange=loadImg(event)>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Update Product</button>
+        </form>
+    </div>
+</section>
+
+<script>
+    function loadImg(event) {
+        document.getElementById('productImg').src = URL.createObjectURL(event.target.files[0])
+    }
+</script>

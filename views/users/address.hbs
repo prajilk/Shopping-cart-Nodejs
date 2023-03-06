@@ -1,0 +1,94 @@
+<div class="container">
+    {{#if addressList}}
+    <a href="/add-address" class="btn btn-outline-primary border-3 w-100 mt-4 p-2 fw-bold">+ Add new address</a>
+    <form action="/update-current-address" method="post" class="mb-5">
+        <div class="card mt-1">
+            <div class="card-header ps-4">
+                {{addressList.length}} saved address
+            </div>
+            {{#each addressList}}
+            <label for="{{this._id}}">
+                <div class="card-body d-flex justify-content-between border-bottom border-dark">
+                    <div class="d-flex">
+                        <input type="radio" name="address" value="{{this._id}}" id="{{this._id}}" {{#eq this._id
+                            ../currentAddressId}}checked{{/eq}}>
+                        <div class="ms-4">
+                            <h5 class="card-title">{{this.fname}} {{this.lname}}</h5>
+                            <p class="card-text">{{this.address}}, {{this.city}}, {{this.state}} - {{this.pincode}}</p>
+                            <p class="card-text">{{this.phone}}</p>
+                        </div>
+                    </div>
+                    <div>
+                        {{!-- <a href="/update-address/{{this._id}}" class="btn btn-outline-primary">Edit</a> --}}
+                        <div class="dropdown">
+                            <button class="btn btn-white text-dark fw-bold" style="font-size: 1.5rem;"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                &#8942;
+                            </button>
+
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                {{!-- <li><a class="dropdown-item" href="/update-address/{{this._id}}">Edit</a></li>
+                                --}}
+                                <li><button type="button" onclick="editAddress('{{this._id}}')"
+                                        class="btn btn-outline-light text-dark w-100 text-start btn-sm">Edit</button>
+                                </li>
+                                {{!-- <li><a class="dropdown-item" href="/delete-address/{{this._id}}">Delete</a></li>
+                                --}}
+                                <li><button type="button" onclick="removeAddress('{{this._id}}')" data-mdb-toggle="modal" data-mdb-target="#removeAddressPopUp"
+                                        class="btn btn-outline-light text-dark w-100 text-start btn-sm">Remove</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </label>
+            {{/each}}
+
+            <!-- Modal -->
+            <div class="modal fade" id="removeAddressPopUp" tabindex="-1"
+                aria-labelledby="removeAddressPopUpModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header border-bottom-0">
+                            <button type="button" class="btn-close" data-mdb-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-start text-black p-4 pt-0">
+                            <h5 class="mb-3">Remove address</h5>
+                            <p>Are you sure you want to remove this address?</p>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-evenly border-top-0 py-4">
+                            <button type="button" class="btn btn-primary btn-lg mb-1" data-mdb-dismiss="modal">
+                                CANCEL
+                            </button>
+                            <a id="confirmRemoveAddress" class="btn btn-danger btn-lg mb-1">
+                                REMOVE
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal -->
+
+        </div>
+        <button type="submit" class="btn btn-primary w-100 mt-2 p-2 fw-bold">DELIVER HERE</button>
+    </form>
+    {{else}}
+    <section class="h-100 mt-5">
+        <div class="text-center">
+            <h3>No Addresses found in your account!</h3>
+            <p>Add a delivery address.</p>
+            <a href="/add-address" class="btn btn-sm btn-primary ps-4 pe-4 p-2">ADD ADDRESS</a>
+        </div>
+    </section>
+    {{/if}}
+</div>
+<script>
+    function editAddress(id) {
+        location.href = `/update-address/${id}`
+    }
+
+    function removeAddress(id) {
+        $('#confirmRemoveAddress').attr("href",`/delete-address/${id}`)
+    }
+</script>
