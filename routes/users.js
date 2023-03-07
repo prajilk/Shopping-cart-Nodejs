@@ -173,7 +173,7 @@ router.get('/checkout', verifyLogin, (req, res) => {
 });
 
 /* GET address page */
-router.get('/address', verifyLogin, (req, res) => {
+router.get('/address', verifyLogin, async (req, res) => {
 
   addressHelper.getAllAddress(req.session.user._id).then(async (addressList) => {
     let currentAddressId = await addressHelper.getCurrentAddress(req.session.user._id)

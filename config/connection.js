@@ -5,7 +5,8 @@ const state = {
 }
 
 module.exports.connect=function(){
-    MongoClient.connect('mongodb://127.0.0.1:27017')
+    // MongoClient.connect('mongodb://127.0.0.1:27017')
+    MongoClient.connect(process.env.MONGODB_URI)
     .then((client)=>{
         state.db = client.db('shopping-cart')
     }).catch((err)=>{

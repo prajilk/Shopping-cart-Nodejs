@@ -103,7 +103,7 @@ module.exports = {
                 // Return array of all address
                 resolve(addressList.addressList)
             } else {
-                resolve(null)
+                resolve([])
             }
         })
     },
