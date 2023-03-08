@@ -8,6 +8,7 @@ var exphbs = require('express-handlebars');
 var fileUpload = require('express-fileupload')
 var db = require('./config/connection')
 var session = require('express-session')
+const MongoDBStore = require('connect-mongodb-session')(session);
 
 var adminRouter = require('./routes/admin');
 var usersRouter = require('./routes/users');
@@ -29,11 +30,19 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload());
+
+const store = new MongoDBStore({
+  uri: process.env.MONGODB_URI,
+  collection: 'sessions'
+});
+
 app.use(session({
   secret: "MyKeyForShoppingCart", 
   saveUninitialized: true,
   resave: false,
-  cookie: {maxAge: 30 * 24 * 60 * 60 * 1000}}))
+  store: store,
+  cookie: {maxAge: 30 * 24 * 60 * 60 * 1000}
+}))
 
 db.connect()
 
